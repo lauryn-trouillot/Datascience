@@ -57,17 +57,16 @@ series_dict = csv_to_dict("1_series.csv")
 # d) Ajout du parametre caractère de séparation 
 
 def csv_to_dict(fichier, sep) : 
-    def csv_to_dict(fichier):
-        """
-        Convertie un CSV en dictionnaire
+    """
+    Convertie un CSV en dictionnaire
 
-        Args:
-            fichier (str): Le chemin vers un fichier csv
-            sep (str): Le caractère des séparation des colonne dans le fichier
+    Args:
+        fichier (str): Le chemin vers un fichier csv
+        sep (str): Le caractère des séparation des colonne dans le fichier
 
-        Returns:
-            dict: Dictionnaire dont les clefs sont les en-têtes des fichiers (1ère ligne).
-        """
+    Returns:
+        dict: Dictionnaire dont les clefs sont les en-têtes des fichiers (1ère ligne).
+    """
     csv_dict ={}
     with open(fichier,'r') as f :
         lignes=f.readlines()
@@ -114,11 +113,11 @@ def moyenne(dico,col) :
 
         Args:
             dico (dict): Le dictionnaire pour lequel on doit calculer la moyenne 
-            colonne (str) : La colonne d'intérêt
+            col (list) : La colonne d'intérêt
 
         Returns:
             float: La moyenne.
-        """
+    """
     somme = 0
     nb_el = len(dico[col])
     for i in dico[col] : 
@@ -129,6 +128,16 @@ print (moyenne(series_dict, "Time"))
 
 # b) La médiane d'une des colonnes
 def mediane(dico, col) :
+    """
+        Calcul la mediane de la liste d'un dictionnaire 
+
+        Args:
+            dico (dict): Le dictionnaire pour lequel on doit calculer la mediane 
+            col (list) : La colonne d'intérêt
+
+        Returns:
+            float: La mediane.
+    """
     nb_element = len(dico[col])
     list_element = sorted(dico[col])
     reste = nb_element % 2
@@ -143,6 +152,16 @@ print (mediane(series_dict, "Time"))
 
 # c) L'écart type d'une colonne 
 def variance(dico, col):
+    """
+        Calcul la variance de la liste d'un dictionnaire 
+
+        Args:
+            dico (dict): Le dictionnaire pour lequel on doit calculer la variance 
+            col (list) : La colonne d'intérêt
+
+        Returns:
+            float: La variance.
+    """
     somme = 0
     m_col = moyenne(dico,col)
     nb_element = len(dico[col])
@@ -151,6 +170,16 @@ def variance(dico, col):
     return somme / nb_element
 
 def ecart_type(dico, col):
+    """
+        Calcul l'écart-type de la liste d'un dictionnaire 
+
+        Args:
+            dico (dict): Le dictionnaire pour lequel on doit calculer l'écart-type 
+            col (list) : La colonne d'intérêt
+
+        Returns:
+            float: L'écart-type.
+    """
     return variance(dico,col) ** 0.5
 
 print (ecart_type(series_dict, "Time"))
@@ -159,6 +188,17 @@ print (ecart_type(series_dict, "Time"))
 # d) Le cofficient de corrélation de 2 colonnes
 
 def correlation_coeff(dico, col1, col2): 
+    """
+        Calcul le coéfficient de corrélation entre 2 listes 
+
+        Args:
+            dico (dict): Le dictionnaire pour lequel on doit calculer le coefficient de corrélation 
+            col1 (list) : Une des colonnes a comparer 
+            col2 (list) : L'autre colonne a comparer
+
+        Returns:
+            float: L'écart-type.
+    """
     m_col1 = moyenne(dico, col1)
     m_col2 = moyenne(dico, col2)
     numerateur = 0
@@ -194,4 +234,30 @@ print(np.median(series_np[0]))
 print(np.std(series_np[0]))
 
 # d) Coefficient de corrélation 
-print(np.corrcoef(series_np[0], series_np[1])[0, 1])
+print(np.corrcoef(series_np[0], series_np[1]))
+
+## 
+# Question 4
+## 
+
+import matplotlib.pyplot as plt 
+
+plt.figure(figsize=(10, 6))
+time = series_np[0]
+fc = series_np[1]
+pas = series_np[2]
+pam = series_np[3]
+pad = series_np[4]
+
+plt.plot(time, fc, label='FC')
+plt.plot(time, pas, label='PAS')
+plt.plot(time, pam, label='PAM')
+plt.plot(time, pad, label='PAD')
+
+plt.title("FC, PAS, PAM et PAD en fonction du temps")
+plt.xlabel("Time")
+plt.ylabel("Paramètres")
+plt.legend()
+plt.grid(True)
+
+plt.show()
